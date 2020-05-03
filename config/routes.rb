@@ -5,5 +5,9 @@ Rails.application.routes.draw do
 
   root 'home#top'
   get 'home/about'
+
+  resources :books, only: [:new, :create, :index, :show, :destroy] do
+    resources :post_comments, only: [:create, :destroy]
+end
 end
 

@@ -24,6 +24,7 @@
 					</td>
 					<td><%= link_to @books.title, book_path(@books) %></td>
 					<td><%= @books.body %></td>
+					<td>コメント数 : <%= @book.post_comments.count %></td>
 
 				<% if @user == current_user %>
                     <td><%= link_to 'Edit', edit_book_path  %></td>
@@ -33,7 +34,30 @@
                     <th></th>
                 <% end %>
 				</tr>
-			</table>
+		</table>
+		<div>
+		<h4>コメント</h4>
+	 	<% @books.post_comments.each do |post_comment| %>
+	 		<ol>
+	 		<%= attachment_image_tag(post_comment.user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %>
+	 		<%= post_comment.comment %>
+		 <div><%= post_comment.user.name %></div>
+		 <% if post_comment.user == current_user %>
+  			<%= link_to "削除",  book_post_comment_path(@books.id, post_comment.id), method: :delete %>
+			<% end %>
+		 
+<!-- 	 	<div><%= post_comment.created_at.strftime('%Y/%m/%d') %></div> -->
+		</ol>
+		<% end %>
+		</div>
+
+	<%= form_for [@books, @post_comment] do |f| %>
+
+            <%= f.text_area :comment %>
+   	 <%= f.submit "送信" %>
+	<% end %>
+
+	</div>
 
 	</div>
 </div>
