@@ -24,7 +24,18 @@
 					</td>
 					<td><%= link_to @books.title, book_path(@books) %></td>
 					<td><%= @books.body %></td>
-					<td>コメント数 : <%= @book.post_comments.count %></td>
+					<td> <% if @books.favorited_by?(current_user) %>
+                	    <%= link_to book_favorites_path(@books), method: :delete do %>
+                	    <i class="glyphicon glyphicon-heart" aria-hidden="true" style="color: black;"></i>
+                	    <%= @books.favorites.count %>
+                	    <% end %>
+                	<% else %>
+                	    <%= link_to book_favorites_path(@books), method: :post do %>
+                	    <i class="glyphicon glyphicon-heart" aria-hidden="true" style="color: gray;"></i>
+                	    <%= @books.favorites.count %>
+                	    <% end %>
+                	<% end %></td>
+					<td>コメント数 : <%= @books.post_comments.count %></td>
 
 				<% if @user == current_user %>
                     <td><%= link_to 'Edit', edit_book_path  %></td>
@@ -35,6 +46,8 @@
                 <% end %>
 				</tr>
 		</table>
+
+
 		<div>
 		<h4>コメント</h4>
 	 	<% @books.post_comments.each do |post_comment| %>
