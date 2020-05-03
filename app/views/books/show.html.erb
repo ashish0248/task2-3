@@ -1,6 +1,16 @@
 <div class="body">
     <div class="container">
 <div class="row">
+		<% if @post_comment.errors.any? %>
+        <div class="alart-message">
+           <h3 class="alart-body"><%= pluralize(@post_comment.errors.count, "error") %> prohibited this book from being saved:</h3>
+          <ul>
+             <% @post_comment.errors.full_messages.each do |message| %>
+                 <li><%= message %></li>
+             <% end %>
+          </ul>
+      <% end %>
+      </div>
 	<div class="col-xs-3">
 
 		<h2>User info</h2>
@@ -38,8 +48,8 @@
 					<td>コメント数 : <%= @books.post_comments.count %></td>
 
 				<% if @user == current_user %>
-                    <td><%= link_to 'Edit', edit_book_path  %></td>
-                    <td><%= link_to 'Destroy', book_path, method: :delete, "data-confirm" => "本当に削除してもよろしいですか？"  %></td>
+                    <td><%= link_to 'Edit', edit_book_path(@books.id)  %></td>
+                    <td><%= link_to 'Destroy', book_path(@books.id), method: :delete, "data-confirm" => "本当に削除してもよろしいですか？"  %></td>
                 <% else %>
                     <th></th>
                     <th></th>

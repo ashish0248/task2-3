@@ -1,12 +1,15 @@
 class PostCommentsController < ApplicationController
 	def create
     book = Book.find(params[:book_id])
-    comment = current_user.post_comments.new(book_params)
-    comment.book_id = book.id
-    if comment.save
+    @post_comment = current_user.post_comments.new(book_params)
+    @post_comment.book_id = book.id
+    if @post_comment.save
     	redirect_to book_path(book)
     else
-    	redirect_to books_path
+        @book = Book.new
+        @books = Book.find(params[:book_id]) 
+        @user = @books.user
+    	render 'books/show'
     end
 	end
 
@@ -16,7 +19,7 @@ class PostCommentsController < ApplicationController
     if comment.destroy
     	redirect_to book_path(book)
     else
-    	redirect_to  books_path
+    	render 'books/show'
     end
     	
 end

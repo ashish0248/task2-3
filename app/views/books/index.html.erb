@@ -1,5 +1,5 @@
 <div class="body">
-	<% if@book.errors.any? %>
+	<% if @book.errors.any? %>
         <div class="alart-message">
            <h3 class="alart-body"><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h3>
           <ul>
